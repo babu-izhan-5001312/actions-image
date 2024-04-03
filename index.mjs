@@ -63,7 +63,7 @@ async function run() {
                         
                             try {
                               // Upload the image
-                              const result = await cloudinary.uploader.upload(imageBaseName, options);
+                              const result = await cloudinary.uploader.upload(file, options);
                               console.log(result);
                               resolve({
                                 file: file,
