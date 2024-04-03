@@ -17,9 +17,9 @@ inputs:
         required: false
         default: ''
     uploadHost:
-        description: 'Upload host (Default: https://litterbox.catbox.moe/resources/internals/api.php)'
+        description: 'Upload host (Default: cloudinary)'
         required: false
-        default: 'https://litterbox.catbox.moe/resources/internals/api.php'
+        default: 'cloudinary'
     annotationTag:
         description: 'The tag to look for in the provided images base64 name (ex: tests/mytest.spec.js[--]80:40.png)'
         required: false
@@ -28,6 +28,18 @@ inputs:
         description: 'The annotation level (Default: notice | Supported values: notice, warning, failure)'
         required: false
         default: 'notice'
+    cloud-name:
+        description: 'Cloudinary account name'
+        required: false
+        default: '<name>'
+    api-key:
+        description: 'Cloudinary API Key'
+        required: false
+        default: '<api-key>'
+    api-secret:
+        description: 'Cloudinary API Secret Key'
+        required: false
+        default: '<api-secret>'
 runs:
     using: 'node16'
     main: './index.mjs'

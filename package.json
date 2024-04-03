@@ -1,16 +1,16 @@
 {
-    "name": "@edunad/actions-image",
+    "name": "@izhan/actions-image",
     "version": "2.0.1",
     "description": "Post a comment with an image on the pull request",
     "main": "index.mjs",
     "module": "true",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/edunad/actions-image/issues"
+        "url": "https://github.com/izhan/actions-image/issues"
     },
-    "repository": "https://github.com/edunad/actions-image",
+    "repository": "https://github.com/izhan/actions-image",
     "author": {
-        "name": "edunad & d3lta"
+        "name": "izhan"
     },
     "dependencies": {
         "@actions/core": "^1.10.1",

@@ -7,9 +7,9 @@ import FormData from 'form-data';
 import glob from '@actions/glob';
 import core from '@actions/core';
 import { context, getOctokit } from '@actions/github';
-import Catbox from 'catbox.moe';
+const cloudinary = require('cloudinary').v2;
 
-const defaultHost = 'https://litterbox.catbox.moe/resources/internals/api.php';
+const defaultHost = 'cloudinary';
 
 async function run() {
     if (!context.payload.pull_request) {
@@ -23,43 +23,63 @@ async function run() {
         const IMG_ENDPOINT = core.getInput('uploadHost') || defaultHost;
         const annotationTag = core.getInput('annotationTag') || '[--]';
         const annotationLevel = core.getInput('annotationLevel') || 'notice';
+        const cloudName = core.getInput('cloud-name') || process.env.CLOUDINARY_CLOUD_NAME;
+        const apiKey = core.getInput('api-key') || process.env.CLOUDINARY_API_KEY;
+        const apiSecret = core.getInput('api-secret') || process.env.CLOUDINARY_API_SECRET;
 
         const octokit = getOctokit(token);
         const globber = await glob.create(pathGlob, { followSymbolicLinks: false, matchDirectories: false });
         const files = await globber.glob();
 
         if (!files || files.length <= 0) return core.setFailed(`Failed to find files on path {${pathGlob}}`);
+        if (!cloudName || !apiKey || !apiSecret) {
+            throw new Error('Cloudinary cloud name, api key and api secret are required');
+        }
+
+        cloudinary.config({
+            cloud_name: cloudName,
+            api_key: apiKey,
+            api_secret: apiSecret,
+            secure: true
+        });
+
+        console.log(cloudinary.config());
 
         // UPLOAD FILES --------------------------
-        const litter = new Catbox.Litterbox();
         const urlPromises = files.map(
             (file) =>
                 new Promise(async (resolve, reject) => {
-                    const name = basename(file);
-                    console.log(`Uploading file '${name}'`);
+                    const imageBaseName = basename(file);
+                    console.log(`Uploading file '${imageBaseName}'`);
 
                     if (IMG_ENDPOINT === defaultHost) {
-                        litter
-                            .upload(file, '24h')
-                            .then((url) => {
-                                console.log(`Uploaded to ${url}`);
-                                resolve({
-                                    file: file,
-                                    url: url.trim(),
-                                });
-                            })
-                            .catch((err) => {
-                                return reject(`Failed to upload {${file}} : ${err}`);
-                            });
-
+                            // Use the uploaded file's name as the asset's public ID and 
+                            // allow overwriting the asset with new versions
+                            const options = {
+                              use_filename: true,
+                              unique_filename: true,
+                              overwrite: true,
+                            };
+                        
+                            try {
+                              // Upload the image
+                              const result = await cloudinary.uploader.upload(imageBaseName, options);
+                              console.log(result);
+                              resolve({
+                                file: file,
+                                url: result.public_id
+                              });
+                            } catch (error) {
+                              console.error(error);
+                            }
                         return;
                     } else {
                         readFile(file, (err, buffer) => {
                             const form = new FormData();
 
                             form.append('file', buffer, {
-                                name: name,
-                                filename: name,
+                                name: imageBaseName,
+                                filename: imageBaseName,
                             });
 
                             fetch(IMG_ENDPOINT, {
