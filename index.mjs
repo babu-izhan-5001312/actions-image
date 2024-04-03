@@ -41,8 +41,6 @@ async function run() {
             secure: true
         });
 
-        console.log(cloudinary.config());
-
         // UPLOAD FILES --------------------------
         const urlPromises = files.map(
             (file) =>
@@ -63,7 +61,6 @@ async function run() {
                             try {
                               // Upload the image
                               const result = await cloudinary.uploader.upload(file, options);
-                              console.log(result);
                               resolve({
                                 file: file,
                                 url: result.url
@@ -111,56 +108,6 @@ async function run() {
         });
 
         if (!urls || urls.length <= 0) return core.setFailed(`Failed to upload files to the provider`);
-        // --------------------------
-
-        // GENERATE ANNOTATIONS --------------------------
-        // const validateBase64 = function (encoded1) {
-        //     var decoded1 = Buffer.from(encoded1, 'base64').toString('utf8');
-        //     var encoded2 = Buffer.from(decoded1, 'binary').toString('base64');
-        //     return encoded1 == encoded2;
-        // };
-
-        // const promises = urls.map(
-        //     (urlData) =>
-        //         new Promise((resolve, reject) => {
-        //             const cleanFile = parse(urlData.file).name;
-        //             if (!validateBase64(cleanFile)) {
-        //                 return resolve({ imageUrl: urlData.url });
-        //             }
-
-        //             const base64Decode = Buffer.from(cleanFile, 'base64').toString('ascii');
-        //             if (base64Decode.indexOf(annotationTag) === -1) return resolve({ imageUrl: urlData.url });
-
-        //             const fileData = base64Decode.split(annotationTag);
-        //             if (!fileData || fileData.length < 1)
-        //                 return reject(`Invalid annotation file name, should be {filePath${annotationTag}line:col}`);
-
-        //             // Normalize the path from \\ to / and remove any "./" "/" at start
-        //             let filePath = fileData[0].replace(/\\/g, '/').replace('./', '');
-        //             if (filePath.startsWith('/')) filePath = filePath.substring(1);
-
-        //             const lineCol = fileData[1].split(':');
-        //             if (!lineCol || lineCol.length !== 2) return reject('Invalid annotation file name');
-
-        //             const line = lineCol[0];
-        //             const branch = context.payload.pull_request.head.ref;
-        //             const fileUrl = `${context.payload.repository.html_url}/blob/${branch}/${filePath}#L${line}`;
-
-        //             return resolve({
-        //                 imageUrl: urlData.url,
-        //                 data: {
-        //                     path: filePath,
-        //                     end_line: parseInt(line),
-        //                     start_line: parseInt(line),
-        //                     annotation_level: annotationLevel,
-        //                     message: fileUrl,
-        //                 },
-        //             });
-        //         }),
-        // );
-
-        // const annotationData = await Promise.all(promises).catch((err) => core.setFailed(err));
-        // if (!annotationData || annotationData.length <= 0) return core.setFailed('Failed to generate comments / annotations');
 
         const images = [];
         urls.forEach((url) => {
@@ -173,7 +120,6 @@ async function run() {
         });
         // --------------------------
 
-        // UPLOAD ANNOTATIONS --------------------------
         octokit.rest.checks
             .create({
                 head_sha: context.payload.pull_request.head.sha,
