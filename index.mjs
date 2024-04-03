@@ -55,8 +55,9 @@ async function run() {
                             // allow overwriting the asset with new versions
                             const options = {
                               use_filename: true,
-                              unique_filename: true,
+                              unique_filename: false,
                               overwrite: true,
+                              invalidate: true,
                             };
                         
                             try {
