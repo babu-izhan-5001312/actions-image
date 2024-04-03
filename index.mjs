@@ -166,6 +166,7 @@ async function run() {
         const annotations = [];
         const images = [];
         annotationData.forEach((anno) => {
+            console.log('annotationData', anno)
             if (!anno) return;
 
             if (anno.data) annotations.push(anno.data);
