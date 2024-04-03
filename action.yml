@@ -20,14 +20,6 @@ inputs:
         description: 'Upload host (Default: cloudinary)'
         required: false
         default: 'cloudinary'
-    annotationTag:
-        description: 'The tag to look for in the provided images base64 name (ex: tests/mytest.spec.js[--]80:40.png)'
-        required: false
-        default: '[--]'
-    annotationLevel:
-        description: 'The annotation level (Default: notice | Supported values: notice, warning, failure)'
-        required: false
-        default: 'notice'
     cloud-name:
         description: 'Cloudinary account name'
         required: false

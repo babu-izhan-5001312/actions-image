@@ -32,17 +32,19 @@ permissions:
 
 ### `uploadHost` - _OPTIONAL_
 
-> Where to upload the pictures to `(Default: https://litterbox.catbox.moe/resources/internals/api.php , please do not upload sensitive information, this is public access)`, uses form POST to upload.
+> Where to upload the pictures to `(Default: cloudinary)`, uses form POST to upload.
 
-### `annotationTag` - _OPTIONAL_
+### `cloud-name` - **REQUIRED** if `uploadHost` is set to `cloudinary`
 
-> The tag that is used to split the base64 image info `(Default: [==] Ex: tests/mytest.spec.js[--]80:40.png)`
+> Cloudinary account name
 
-### `annotationLevel` - _OPTIONAL_
+### `api-key` - **REQUIRED** if `uploadHost` is set to `cloudinary`
 
-> The annotation level | Supported values: **notice, warning, failure** `(Default: notice)`
+> Cloudinary API Key
 
----
+### `api-secret` - **REQUIRED** if `uploadHost` is set to `cloudinary`
+
+> Cloudinary API Secret Key
 
 ## Example usage
 

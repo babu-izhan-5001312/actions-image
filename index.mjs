@@ -21,8 +21,6 @@ async function run() {
         const pathGlob = core.getInput('path', { required: true });
         const title = core.getInput('title');
         const IMG_ENDPOINT = core.getInput('uploadHost') || defaultHost;
-        const annotationTag = core.getInput('annotationTag') || '[--]';
-        const annotationLevel = core.getInput('annotationLevel') || 'notice';
         const cloudName = core.getInput('cloud-name') || process.env.CLOUDINARY_CLOUD_NAME;
         const apiKey = core.getInput('api-key') || process.env.CLOUDINARY_API_KEY;
         const apiSecret = core.getInput('api-secret') || process.env.CLOUDINARY_API_SECRET;
