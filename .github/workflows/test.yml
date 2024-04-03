@@ -32,6 +32,9 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   title: 'Meow 🙀'
                   annotationLevel: 'failure'
+                  cloud-name: dqydn2j2x
+                  api-key: 155652779465454
+                  api-secret: ${{ secrets.CLOUDINARY_API_SECRET }}
 
             - name: Upload Images 2
               uses: ./
@@ -40,3 +43,6 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   title: 'Meow 2 🙀'
                   annotationLevel: 'notice'
+                  cloud-name: dqydn2j2x
+                  api-key: 155652779465454
+                  api-secret: ${{ secrets.CLOUDINARY_API_SECRET }}
