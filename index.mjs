@@ -7,7 +7,7 @@ import FormData from 'form-data';
 import glob from '@actions/glob';
 import core from '@actions/core';
 import { context, getOctokit } from '@actions/github';
-const cloudinary = require('cloudinary').v2;
+import { v2 as cloudinary } from 'cloudinary';
 
 const defaultHost = 'cloudinary';
 
