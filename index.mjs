@@ -67,7 +67,7 @@ async function run() {
                               console.log(result);
                               resolve({
                                 file: file,
-                                url: result.public_id
+                                url: result.url
                               });
                             } catch (error) {
                               console.error(error);
