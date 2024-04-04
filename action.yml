@@ -1,4 +1,4 @@
-name: 'Action Image'
+name: 'Action Image Using Cloudinary'
 description: 'Posts a image on actions (on the given line if provided), useful for CI/CD & End2End screenshots'
 branding:
     icon: 'image'
