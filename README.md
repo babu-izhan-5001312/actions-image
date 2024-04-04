@@ -1,9 +1,7 @@
 # actions-image
 
 Post a image on the pull request. Usefull for screenshots of failed E2E tests.
-Also supports tagging code files.
 
-![](https://i.rawr.dev/o2a05fQ8QM.png)
 
 ## Requirements
 
@@ -53,36 +51,10 @@ permissions:
   if: ${{ failure() }}
   uses: edunad/actions-image@v2.0.0
   with:
-      path: './failed_tests/**/*.png'
+      path: './test/pics/**'
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      title: 'Failed E2E tests 🙀'
-      annotationLevel: 'failure'
+      title: 'Meow 🙀'
+      cloud-name: dqydn2j2x
+      api-key: 155652779465454
+      api-secret: ${{ secrets.CLOUDINARY_API_SECRET }}
 ```
-
----
-
-## How to tag images on code
-
-Save your image name with following format and convert it to **base64**
-
-```
-filePath[==]line:column
-```
-
-### For example :
-
-```
-tests/mycode/basic-test.spec.js[==]80:30
-```
-
-Then on NodeJS save the image as
-
-```
-const fs = require('fs');
-const imageName = Buffer.from(`tests/mycode/basic-test.spec.js[==]80:30`).toString('base64');
-
-fs.writeFileSync(`${imageName}.png`, ...etc)
-```
-
-It will then apply the add an annotation like
-![](https://i.rawr.dev/hFBx1uRdRI.png)
